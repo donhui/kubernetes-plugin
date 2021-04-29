@@ -336,6 +336,10 @@ public class KubernetesSlave extends AbstractCloudSlave {
             listener.fatalError(msg);
             return;
         }
+	
+	String msg = String.format("Disconnected computer %s", name);
+        LOGGER.log(Level.INFO, msg);
+        listener.getLogger().println(msg);
 
         if (deletePod) {
             deleteSlavePod(listener, client);
@@ -345,9 +349,6 @@ public class KubernetesSlave extends AbstractCloudSlave {
             LOGGER.log(Level.WARNING, "Slave pod {0} was not deleted due to retention policy {1}.",
                     new Object[] { name, getPodRetention(cloud) });
         }
-        String msg = String.format("Disconnected computer %s", name);
-        LOGGER.log(Level.INFO, msg);
-        listener.getLogger().println(msg);
     }
 
     private void deleteSlavePod(TaskListener listener, KubernetesClient client) throws IOException {
